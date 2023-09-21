@@ -5,7 +5,7 @@ import { getData } from "@/sanity/lib/client";
 import { Product, FooterBanner, HeroBanner } from "@/components";
 
 export default async function Home({products, bannerData}) {
-  const data = await getData()
+  const data = await getData();
   return (
     <>
       <HeroBanner data={data} />
