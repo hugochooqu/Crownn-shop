@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useStateContext } from '@/context/StateContext';
 
 import {
     AiOutlineMinus,
@@ -13,12 +14,13 @@ import Product from './Product';
 
 
 const ProductDetail = (productData) => {
-    console.log(productData.productData.product)
+
+    const product = productData.productData.product;
 
  const [index, setIndex] = useState(0);
+ const {decreaseQuantity, increaseQuantity, quantity} = useStateContext()
 
-
-  const imageUrl = `https://cdn.sanity.io/images/${projectId}/${dataset}/${productData.productData.product.image[index].asset._ref.replace("image-", "").replace("-webp", ".webp")}`;
+  const imageUrl = `https://cdn.sanity.io/images/${projectId}/${dataset}/${produc.image[index].asset._ref.replace("image-", "").replace("-webp", ".webp")}`;
      
   return (
     <div>
@@ -57,13 +59,13 @@ const ProductDetail = (productData) => {
           <div className="quantity">
             <h3>Quantity:</h3>
             <p className="quantity-desc">
-              <span className="minus" onClick="">
+              <span className="minus" onClick={decreaseQuantity}>
                 <AiOutlineMinus />
               </span>
-              <span className="num" onClick="">
-                0
+              <span className="num">
+                {quantity}
               </span>
-              <span className="plus" onClick="">
+              <span className="plus" onClick={increaseQuantity}>
                 <AiOutlinePlus />
               </span>
             </p>
