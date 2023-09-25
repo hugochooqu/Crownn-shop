@@ -16,11 +16,12 @@ import Product from './Product';
 const ProductDetail = (productData) => {
 
     const product = productData.productData.product;
+    console.log(product)
 
  const [index, setIndex] = useState(0);
- const {decreaseQuantity, increaseQuantity, quantity} = useStateContext()
+ const {decreaseQuantity, increaseQuantity, qty, onAdd} = useStateContext()
 
-  const imageUrl = `https://cdn.sanity.io/images/${projectId}/${dataset}/${produc.image[index].asset._ref.replace("image-", "").replace("-webp", ".webp")}`;
+  const imageUrl = `https://cdn.sanity.io/images/${projectId}/${dataset}/${product.image[index].asset._ref.replace("image-", "").replace("-webp", ".webp")}`;
      
   return (
     <div>
@@ -30,7 +31,7 @@ const ProductDetail = (productData) => {
             <img className="product-detail-image" src={imageUrl}  />
           </div>
           <div className="small-images-container">
-            {productData.productData.product.image?.map((item, i) => (
+            {product.image?.map((item, i) => (
               <img
                 key={i}
                 src={`https://cdn.sanity.io/images/${projectId}/${dataset}/${item.asset._ref.replace("image-", "").replace("-webp", ".webp")}`}
@@ -41,7 +42,7 @@ const ProductDetail = (productData) => {
           </div>
         </div>
         <div className="product-detail-desc">
-          <h1>{productData.productData.product.name}</h1>
+          <h1>{product.name}</h1>
           <div className="reviews">
             <div>
               <AiFillStar />
@@ -54,8 +55,8 @@ const ProductDetail = (productData) => {
             <p>(20)</p>
           </div>
           <h4>Details:</h4>
-          <p>{productData.productData.product.details}</p>
-          <p className="price">${productData.productData.product.price}</p>
+          <p>{product.details}</p>
+          <p className="price">${product.price}</p>
           <div className="quantity">
             <h3>Quantity:</h3>
             <p className="quantity-desc">
@@ -63,7 +64,7 @@ const ProductDetail = (productData) => {
                 <AiOutlineMinus />
               </span>
               <span className="num">
-                {quantity}
+                {qty}
               </span>
               <span className="plus" onClick={increaseQuantity}>
                 <AiOutlinePlus />
@@ -71,7 +72,7 @@ const ProductDetail = (productData) => {
             </p>
           </div>
           <div className="buttons">
-            <button type="button" className="add-to-cart">
+            <button type="button" className="add-to-cart" onClick={() => onAdd(productData, qty)}>
               Add to Cart
             </button>
             <button type="button" className="buy-now">
