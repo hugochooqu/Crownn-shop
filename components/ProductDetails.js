@@ -14,14 +14,20 @@ import Product from './Product';
 
 
 const ProductDetail = (productData) => {
-
+    console.log(productData)
     const product = productData.productData.product;
     // console.log(product)
 
  const [index, setIndex] = useState(0);
- const {decreaseQuantity, increaseQuantity, qty, onAdd} = useStateContext()
+ const {decreaseQuantity, increaseQuantity, qty, onAdd, setShowCart} = useStateContext()
 
-  const imageUrl = `https://cdn.sanity.io/images/${projectId}/${dataset}/${product.image[index].asset._ref.replace("image-", "").replace("-webp", ".webp")}`;
+ const handleBuyNow = () => {
+  onAdd(productData, qty);
+
+  setShowCart(true)
+ }
+
+  const imageUrl = `https://cdn.sanity.io/images/${projectId}/${dataset}/${product?.image[index].asset._ref.replace("image-", "").replace("-webp", ".webp")}`;
      
   return (
     <div>
@@ -31,7 +37,7 @@ const ProductDetail = (productData) => {
             <img className="product-detail-image" src={imageUrl}  />
           </div>
           <div className="small-images-container">
-            {product.image?.map((item, i) => (
+            {product?.image?.map((item, i) => (
               <img
                 key={i}
                 src={`https://cdn.sanity.io/images/${projectId}/${dataset}/${item.asset._ref.replace("image-", "").replace("-webp", ".webp")}`}
@@ -42,7 +48,7 @@ const ProductDetail = (productData) => {
           </div>
         </div>
         <div className="product-detail-desc">
-          <h1>{product.name}</h1>
+          <h1>{product?.name}</h1>
           <div className="reviews">
             <div>
               <AiFillStar />
@@ -55,8 +61,8 @@ const ProductDetail = (productData) => {
             <p>(20)</p>
           </div>
           <h4>Details:</h4>
-          <p>{product.details}</p>
-          <p className="price">${product.price}</p>
+          <p>{product?.details}</p>
+          <p className="price">${product?.price}</p>
           <div className="quantity">
             <h3>Quantity:</h3>
             <p className="quantity-desc">
@@ -75,7 +81,7 @@ const ProductDetail = (productData) => {
             <button type="button" className="add-to-cart" onClick={() => onAdd(productData, qty)}>
               Add to Cart
             </button>
-            <button type="button" className="buy-now">
+            <button type="button" className="buy-now" onClick={handleBuyNow}>
               Buy now
             </button>
           </div>

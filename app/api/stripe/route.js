@@ -41,8 +41,8 @@ export async function POST(req, res) {
                     quantity: item.quantity
                 }
             }),
-            success_url: `${origin}/?success=true`,
-            cancel_url: `${origin}/?canceled=true`,
+            success_url: `${origin}/success`,
+            cancel_url: `${origin}/canceled`,
           })
 
       // Create Checkout Sessions from body params.

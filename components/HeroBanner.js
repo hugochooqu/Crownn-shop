@@ -22,7 +22,7 @@ const HeroBanner = (data) => {
         <h1>{heroBanner.largeText1}</h1>
         <img src={imageUrl} alt='headphones' className='hero-banner-image' /> 
         <div>
-          <Link href={`/products/${heroBanner.product}`}>
+          <Link href={`/product/${heroBanner.product}`}>
             <button type='button'>{heroBanner.buttonText}</button>
           </Link>
         </div>
