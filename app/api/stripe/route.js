@@ -1,14 +1,18 @@
+import { dataset, projectId } from '@/sanity/env';
+import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY)
 
 
-export async function handler(req, res) {
+export async function POST(req, res) {
   if (req.method === 'POST') {
-    console.log(req)
-    console.log('true')
+    const body = await req.json();
+    const origin = req.headers.get('origin');
+    console.log(origin)
+    
     try {
-        const params = {
+        const session = await stripe.checkout.sessions.create ({
             submit_type: 'pay',
             mode: 'payment',
             payment_method_types: ['card'],
@@ -17,8 +21,9 @@ export async function handler(req, res) {
                 {shipping_rate: 'shr_1NuGZAGneUBojUFKnuBWX01D'},
                 {shipping_rate: 'shr_1NuGbDGneUBojUFKnyLcjXFn'},
             ],
-            line_items: req.body.cartItems.map((item) => {
-                const img = 'https://cdn.sanity.io/images/${projectId}/${dataset}/${item.asset._ref.replace("image-", "").replace("-webp", ".webp")}';
+            line_items: body.map((item) => {
+                console.log(item.image[0].asset)
+                const img = `https://cdn.sanity.io/images/${projectId}/${dataset}/${item.image[0].asset._ref.replace("image-", "").replace("-webp", ".webp")}`;
 
                 return {
                     price_data: {
@@ -36,14 +41,15 @@ export async function handler(req, res) {
                     quantity: item.quantity
                 }
             }),
-            success_url: `${req.headers.origin}/?success=true`,
-            cancel_url: `${req.headers.origin}/?canceled=true`,
-          }
+            success_url: `${origin}/?success=true`,
+            cancel_url: `${origin}/?canceled=true`,
+          })
+
       // Create Checkout Sessions from body params.
-      const session = await stripe.checkout.sessions.create(params);
-      res.status(200).json(session);
+      return NextResponse.json(session);
     } catch (err) {
-      res.status(err.statusCode || 500).json(err.message);
+        console.log(err)
+    //    res.status(err.statusCode || 500).json(err.message);
     }
   } else {
     res.setHeader('Allow', 'POST');

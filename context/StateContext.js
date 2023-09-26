@@ -96,6 +96,7 @@ export const StateContext = ({ children }) => {
     });
   };
 
+  // console.log(cartItems)
   return (
     <Context.Provider
       value={{

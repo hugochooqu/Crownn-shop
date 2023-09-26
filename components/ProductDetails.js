@@ -16,7 +16,7 @@ import Product from './Product';
 const ProductDetail = (productData) => {
 
     const product = productData.productData.product;
-    console.log(product)
+    // console.log(product)
 
  const [index, setIndex] = useState(0);
  const {decreaseQuantity, increaseQuantity, qty, onAdd} = useStateContext()
